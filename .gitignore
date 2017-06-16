@@ -59,3 +59,6 @@ build/
 
 # Valgrind core dumps
 vgcore*
+
+# Generated Doxygen docs
+docs/html
