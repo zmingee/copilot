@@ -50,3 +50,12 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Dirs
+build/
+
+# Geany project file
+*.geany
+
+# Valgrind core dumps
+vgcore*
