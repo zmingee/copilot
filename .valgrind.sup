@@ -1,0 +1,25 @@
+{
+   <ignore_cond_jump>
+   Memcheck:Cond
+   ...
+   obj:*
+}
+{
+   <ignore_memcheck_addr8>
+   Memcheck:Addr8
+   ...
+   fun:main
+}
+{
+   <ignore_uninit_val_8>
+   Memcheck:Value8
+   ...
+   obj:*
+}
+{
+   <ignore_memcheck_param_memcheck>
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:curl_multi_perform
+}

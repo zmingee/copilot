@@ -1,0 +1,59 @@
+{
+    "turboLog": {"gitLogCommandParams": "-n50 --reverse"},
+    "turboCommit": {"textAskTag": "Select tag for your turbo-commit: ",
+    "textAskComponent": "",
+    "textAskTitle": "Type commit title: ",
+    "textAskDesc": "Commit description (leave it empty for omit): "},
+    "commitConvention": {
+        "tagPrefix": "",
+        "tagSuffix": "",
+        "commitDesc": [
+            {
+                "tag": "[ADD]",
+                "desc": "Adding new features/code.",
+                "color": "green"
+            },
+            {
+                "tag": "[REF]",
+                "desc": "Refactoring and/or big changes.",
+                "color": "cyan"
+            },
+            {
+                "tag": "[MOD]",
+                "desc": "Small changes to existing logic.",
+                "color": "blue"
+            },
+            {
+                "tag": "[DOC]",
+                "desc": "Adding documentation, comments, etc.",
+                "color": "blue"
+            },
+            {
+                "tag": "[FIX]",
+                "desc": "Bug fixes.",
+                "color": "yellow"
+            },
+            {
+                "tag": "[BRK]",
+                "desc": "Breaking changes to internal or external APIs.",
+                "color": "magenta"
+            },
+            {
+                "tag": "[DEL]",
+                "desc": "Cleanup, removing unused code, deleting libs/files, etc.",
+                "color": "red"
+            },
+            {
+                "tag": "[MRG]",
+                "desc": "Merges.",
+                "color": "white"
+            },
+            {
+                "tag": "[REL]",
+                "desc": "Cutting a release.",
+                "color": "white"
+            }
+        ]
+    },
+    "debug": false
+}
