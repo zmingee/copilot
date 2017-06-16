@@ -80,7 +80,7 @@ Building/Using
 As said, most of the functionality isn't yet implemented, but you can "use" the
 system as follows:
 
-.. code-block:: bash
+.. code:: bash
     # Clean the repo (just in case)
     $ make clean
 
