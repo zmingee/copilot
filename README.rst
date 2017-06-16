@@ -1,17 +1,17 @@
 copilot
 =======
 
-.. note:
+.. note::
     This is very early in the development stages. As such, many features and
     functionalities are broken or simply not yet implemented. Use at your own
     risk.
 
-.. note:
+.. note::
     HERE BE DRAGONS. I DO NOT ASSUME ANY RESPONSIBILITY FOR ANYTHING YOU MAY
     BREAK WITH YOUR CAR. YOUR CAR IS A MISSILE ON WHEELS. TREAT YOUR CAR, THIS
     CODE, AND YOUR LIFE WITH RESPECT. YOU HAVE BEEN WARNED.
 
-.. note:
+.. note::
     This is initially targeting my Scion FR-S (and by extension the Subaru BRZ
     (probably (but only maybe))). Also, this I'm writing this for myself, and
     I'm only concerned with compatibility with the ``atmega328p`` MCU and the
@@ -80,7 +80,7 @@ Building/Using
 As said, most of the functionality isn't yet implemented, but you can "use" the
 system as follows:
 
-.. code-block: bash
+.. code-block:: bash
     # Clean the repo (just in case)
     $ make clean
 
