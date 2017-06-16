@@ -100,7 +100,7 @@ Limitations
 
 The current compatibility is as follows:
 
-- Scion FR-S 2013 (probably Subar BRZ as well)
+- Scion FR-S 2013 (probably Subaru BRZ as well)
 - ``atmega328p``
 - ``mcp2515``
 
