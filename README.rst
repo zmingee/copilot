@@ -58,11 +58,104 @@ Goals
 
 The goals of this project are as follows:
 
-- Implement a full library for communicating with the ``MCP2515`` module
-- Pull data from the CAN bus
-- Push data/messages onto the CAN bus
-- Provide abstracted methods for controller vehicle components (i.e., turn
-  on headlights, control A/C, etc.)
+- Diagnostics/Monitoring Subsystems
+  - Engine ECU
+    - Vehicle speed
+    - Engine RPM
+    - Engine Status (running/off)
+    - Coolant & external temperatures
+    - Odometer
+    - Handbrake engaged/disengaged
+    - Current transmission gear
+    - Clutch engaged/disengaged
+    - Ignition position
+    - Air-fuel ratio
+    - O2 sensors
+    - Fuel level
+  - Body Control Module subsystem
+    - Door open/closed status
+    - Hood open/closed status
+    - Trunk open/closed status
+    - Windows up/down status
+    - Fuel door open/closed status
+  - AC Control Module subsystem
+    - Power state
+    - Fan speed state
+    - Fan state (floor, front, defroster, etc)
+    - Air recycle state
+    - Temperature state
+    - Rear defroster state
+  - Body Control Module subsystem
+    - Interior lights state
+    - Headlights state
+    - Hazards state
+    - Turn signals state
+    - Power locks state
+    - Power windows state
+    - Power side mirrors state
+  - Audio Control Module subsystem
+    - Power state
+    - Input selection state
+    - Volume state
+  - Logging
+    - File (SQLlite)
+    - File upload (CSV)
+- Vehicle subsystem control
+  - Gauge Control Module subsystem
+    - LCD control
+    - Light control
+  - AC Control Module subsystem
+    - Power on/off
+    - Fan speed control
+    - Fan control (floor, front, defroster, etc)
+    - Air recycle control
+    - Temperature control
+    - Rear defroster on/off
+  - Body Control Module subsystem
+    - Interior lights
+    - Headlights
+    - Hazards
+    - Turn signals
+    - Power locks
+    - Power windows
+    - Power side mirrors
+  - Audio Control Module subsystem
+    - Full track control
+    - Input selection
+    - Volume control
+- *New* Features
+  - Audio Control Module subsystem
+    - Integrated ``mpd`` with in-car Bluetooth audio
+  - Body Control Module subsystem
+    - Headlights
+      - Auto-headlights at night
+      - Auto-daytime running lights
+    - Turn signals
+      - "Comfort" turn signals
+    - Power locks
+      - Auto-unlock on approach
+      - Keyless entry
+        - NFC
+        - RFID
+        - Bluetooth
+    - Key fob
+      - Custom actions on key fob buttom press
+        - Ex.: roll down windows on long press of ``unlock``
+    - Cameras
+      - Dash cam
+      - Reverse cam
+      - Cabin cam
+      - Front proximity sensors
+      - Rear proximity sensors
+- Supported interfaces
+  - ``16x2`` LCD with controls for viewing data at a glance
+  - ``UART`` API
+  - Nanomsg API
+    - Uses wifi module that dynamically connects to pre-configured wireless
+      networks
+  - Bluetooth API
+- Miscellaneous features
+  - Arbitrary CAN bus message TX/RX over all APIs
 
 
 Requirements
@@ -102,9 +195,4 @@ The current compatibility is as follows:
 
 - Scion FR-S 2013 (probably Subaru BRZ as well)
 - ``atmega328p``
-- ``mcp2515``
-
-I'm using "pure C" to program an Arduino Uno. As such, it currently requires
-the Arduino bootloader. I plan to eventually move to using an ISP to program
-the AVR directly, then I may move away from the Arduino platform altogether and
-utilize a the hardware without dev boards. Eventually.
+- ``MCP2515``
