@@ -28,11 +28,11 @@ BINFORMAT = ihex
 # PROGRAMMING PARAMETERS #
 ##########################
 
-PROGRAMMER = arduino
+PROGRAMMER = avrisp
 PART = m328p
 PORT = $(shell ls /dev/ttyACM? | head -1)
 AVRDUDE = avrdude -v -p $(PART) -c $(PROGRAMMER) -P $(PORT)
-AVRDUDE_FLASH = -U flash:w:$(BUILD_DIR)/$(TARGET).hex
+AVRDUDE_FLASH = -b 19200 -U flash:w:$(BUILD_DIR)/$(TARGET).hex
 
 OPTIMIZATION := -Os
 WARNINGS := -Wall -W -Wextra -pedantic
