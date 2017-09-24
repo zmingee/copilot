@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <stdio.h>
 #include <util/setbaud.h>
 
 
@@ -51,6 +52,16 @@ void uart_write(char *s) {
         UDR0 = s[i];
         i++;
     }
+}
+
+/*
+ * uart_write_c writes a single char to the serial port.
+ */
+int uart_write_c(char c, FILE *stream) {
+    loop_until_bit_is_set(UCSR0A, UDRE0);
+    UDR0 = c;
+
+	return 0;
 }
 
 
