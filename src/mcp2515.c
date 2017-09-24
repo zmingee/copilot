@@ -15,9 +15,13 @@
 
 
 #include <avr/io.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "spi.h"
+#include "mcp2515.h"
 #include "mcp_can_dfs.h"
+#include "uart.h"
 
 static int SPI_CS;
 
@@ -69,6 +73,30 @@ static unsigned char mcp2515_read_register(unsigned char address) {
     PORTB |= (1 << SPI_CS);
 
     return ret;
+}
+
+/**
+ * @brief Read the value of a register as a string.
+ *        Writes MCP_READ to the SPI port, writes the address, then returns
+ *        each of the responses in the values[] array provided.
+ * @author Zane Mingee
+ * @date 2017-08-20
+ * @param address   Address to read
+ * @param values    Array to place string into
+ * @param n         Max len of the string
+ */
+void mcp2515_read_register_s(const unsigned char address, unsigned char values[],
+        const unsigned char n) {
+    unsigned char i;
+
+    PORTB &= ~(1 << SPI_CS);
+    spi_transmit(MCP_READ);
+    spi_transmit(address);
+    // mcp2515 has auto-increment of address-pointer
+    for(i=0; i<n && i<CAN_MAX_CHAR_IN_MESSAGE; i++) {
+        values[i] = spi_transmit(0x00);
+    }
+    PORTB |= (1 << SPI_CS);
 }
 
 /**
@@ -362,13 +390,94 @@ unsigned char mcp2515_read_status(void) {
  * @return Message indicating if a message is available
  */
 unsigned char mcp2515_check_receive(void) {
-    unsigned char res;
+    unsigned char status;
 
-    res = mcp2515_read_status();
-    if (res & MCP_STAT_RXIF_MASK) {
+    status = mcp2515_read_status();
+    if (status & MCP_STAT_RXIF_MASK) {
         return CAN_MSGAVAIL;
     } else {
         return CAN_NOMSG;
+    }
+}
+
+void mcp2515_read_id(const unsigned char mcp_addr, unsigned char *ext,
+        unsigned long *id) {
+    unsigned char tbufdata[4];
+
+    *ext = 0;
+    *id = 0;
+
+    mcp2515_read_register_s(mcp_addr, tbufdata, 4);
+    *id = (tbufdata[MCP_SIDH]<<3) + (tbufdata[MCP_SIDL]>>5);
+
+    if ((tbufdata[MCP_SIDL] & MCP_TXB_EXIDE_M) == MCP_TXB_EXIDE_M) {
+        /* Extended ID */
+        *id = (*id<<2) + (tbufdata[MCP_SIDL] & 0x03);
+        *id = (*id<<8) + tbufdata[MCP_EID8];
+        *id = (*id<<8) + tbufdata[MCP_EID0];
+        *ext = 1;
+    }
+}
+
+static struct CanMessage *mcp2515_read_can_msg(
+        const unsigned char buffer_sidh_addr) {
+    struct CanMessage *msg;
+
+    unsigned char mcp_addr;
+    unsigned char ctrl;
+    unsigned char ext_flag;
+    unsigned long can_id;
+
+    msg = malloc(sizeof(struct CanMessage));
+
+    mcp_addr = buffer_sidh_addr;
+    mcp2515_read_id(mcp_addr, &ext_flag, &can_id);
+    ctrl = mcp2515_read_register(mcp_addr-1);
+    msg->data_len = mcp2515_read_register(mcp_addr+4);
+
+    if (ctrl & 0x08) {
+        msg->rtr = 1;
+    } else {
+        msg->rtr = 0;
+    }
+
+    msg->data_len &= MCP_DLC_MASK;
+    mcp2515_read_register_s(mcp_addr+5, &(msg->data[0]), msg->data_len);
+
+    return msg;
+}
+
+unsigned char mcp2515_read_msg(struct CanMessage *msg) {
+    unsigned char status;
+    unsigned char result;
+
+    status = mcp2515_read_status();
+
+    if (status & MCP_STAT_RX0IF) {
+        msg = mcp2515_read_can_msg(MCP_RXBUF_0);
+        mcp2515_modify_register(MCP_CANINTF, MCP_RX0IF, 0);
+        result = CAN_OK;
+    } else if (status & MCP_STAT_RX1IF) {
+        msg = mcp2515_read_can_msg(MCP_RXBUF_1);
+        mcp2515_modify_register(MCP_CANINTF, MCP_RX1IF, 0);
+        result = CAN_OK;
+    } else {
+        result = CAN_NOMSG;
+    }
+
+    return result;
+}
+
+void mcp2515_read_msg_buf(int *len, char *buf){
+    unsigned char rc;
+    struct CanMessage *msg = NULL;
+
+    rc = mcp2515_read_msg(msg);
+
+    if (rc == CAN_OK) {
+        for (unsigned int i = 0; i < msg->data_len; i++) {
+            buf[i] = msg->data[i];
+        }
     }
 }
 

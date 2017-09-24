@@ -17,6 +17,8 @@
 #ifndef _MCP2515_H
 #define _MCP2515_H
 
+#define MAX_CHAR_IN_MESSAGE 8
+
 /**
  * @brief Initialize the MCP2515
  * @author Zane Mingee
@@ -44,6 +46,18 @@ unsigned char mcp2515_read_status(void);
  * @return Message indicating if a message is available
  */
 unsigned char mcp2515_check_receive(void);
+
+struct CanMessage {
+    unsigned int data_len;
+    unsigned char rtr;
+    unsigned char data[MAX_CHAR_IN_MESSAGE];
+};
+
+void mcp2515_read_msg_buf(int *len, char *buf);
+
+unsigned char mcp2515_read_msg(struct CanMessage *msg);
+
+int mcp2515_get_can_id();
 
 #endif /* _MCP2515_H */
 
