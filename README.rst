@@ -58,6 +58,8 @@ Goals
 
 The goals of this project are as follows:
 
+    .. note:: *Bold* means currently implemented
+
 - Diagnostics/Monitoring Subsystems
 
   - Engine ECU
