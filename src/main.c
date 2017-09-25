@@ -1,6 +1,4 @@
 #include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/atomic.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <util/delay.h>
@@ -13,31 +11,6 @@
 #include "mcp_can_dfs.h"
 
 FILE uart_str = FDEV_SETUP_STREAM(uart_write_c, NULL, _FDEV_SETUP_RW);
-volatile unsigned long timer1_millis;
-#define CTC_MATCH_OVERFLOW ((F_CPU / 1000) / 8)
-
-ISR(TIMER1_COMPA_vect) {
-    timer1_millis++;
-}
-
-unsigned long millis() {
-    unsigned long millis_return;
-
-    ATOMIC_BLOCK(ATOMIC_FORCEON) {
-        millis_return = timer1_millis;
-    }
-
-    return millis_return;
-}
-
-void setup_timer() {
-    /* Setup the timer for logging */
-    TCCR1B |= (1 << WGM12) | (1 << CS11);
-    OCR1AH = (CTC_MATCH_OVERFLOW >> 8);
-    OCR1AL = CTC_MATCH_OVERFLOW;
-    TIMSK1 |= (1 << OCIE1A);
-    sei();
-}
 
 bool boot(){
     /* Setup the serial port */
@@ -45,12 +18,7 @@ bool boot(){
     uart_write("Booting copilot...\r\n");
     uart_write("UART configured\r\n");
     stdout = &uart_str;
-    printf("Setup UART as STDOUT\r\n");
-
-    setup_timer();
-    printf("Setup global interupts and timer on TIMER1\r\n");
-
-    LOG_PRINT(DEBUG, "Setup system ready");
+    LOG_PRINT(DEBUG, "Setup UART as STDOUT");
 
     /* Set up SPI */
     spi_init();
@@ -62,16 +30,14 @@ bool boot(){
 }
 
 int main(void) {
-    stdout = &uart_str;
     unsigned char res;
     bool boot_status;
 
     boot_status = boot();
     if (!boot_status) {
-        LOG_PRINT(ERROR, "Boot initialization failed!");
+        uart_write("Boot initialization failed!");
         return 0;
     }
-
 
     /* Set up mcp2515 */
     while (1) {
@@ -102,7 +68,7 @@ int main(void) {
             printf("\r\n");
             _delay_ms(100);
         } else {
-            LOG_PRINT(INFO, "No message available");
+            LOG_PRINT(WARNING, "No message available");
             _delay_ms(1000);
         }
     }
