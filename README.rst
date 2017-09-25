@@ -59,7 +59,9 @@ Goals
 The goals of this project are as follows:
 
 - Diagnostics/Monitoring Subsystems
+
   - Engine ECU
+
     - Vehicle speed
     - Engine RPM
     - Engine Status (running/off)
@@ -72,20 +74,26 @@ The goals of this project are as follows:
     - Air-fuel ratio
     - O2 sensors
     - Fuel level
+
   - Body Control Module subsystem
+
     - Door open/closed status
     - Hood open/closed status
     - Trunk open/closed status
     - Windows up/down status
     - Fuel door open/closed status
+
   - AC Control Module subsystem
+
     - Power state
     - Fan speed state
     - Fan state (floor, front, defroster, etc)
     - Air recycle state
     - Temperature state
     - Rear defroster state
+
   - Body Control Module subsystem
+
     - Interior lights state
     - Headlights state
     - Hazards state
@@ -93,25 +101,36 @@ The goals of this project are as follows:
     - Power locks state
     - Power windows state
     - Power side mirrors state
+
   - Audio Control Module subsystem
+
     - Power state
     - Input selection state
     - Volume state
+
   - Logging
+
     - File (SQLlite)
     - File upload (CSV)
+
 - Vehicle subsystem control
+
   - Gauge Control Module subsystem
+
     - LCD control
     - Light control
+
   - AC Control Module subsystem
+
     - Power on/off
     - Fan speed control
     - Fan control (floor, front, defroster, etc)
     - Air recycle control
     - Temperature control
     - Rear defroster on/off
+
   - Body Control Module subsystem
+
     - Interior lights
     - Headlights
     - Hazards
@@ -119,52 +138,76 @@ The goals of this project are as follows:
     - Power locks
     - Power windows
     - Power side mirrors
+
   - Audio Control Module subsystem
+
     - Full track control
     - Input selection
     - Volume control
+
 - *New* Features
+
   - Audio Control Module subsystem
+
     - Integrated ``mpd`` with in-car Bluetooth audio
+
   - Body Control Module subsystem
+
     - Headlights
+
       - Auto-headlights at night
       - Auto-daytime running lights
+
     - Turn signals
+
       - "Comfort" turn signals
+
     - Power locks
+
       - Auto-unlock on approach
       - Keyless entry
+
         - NFC
         - RFID
         - Bluetooth
+
     - Key fob
+
       - Custom actions on key fob buttom press
+
         - Ex.: roll down windows on long press of ``unlock``
+
     - Cameras
+
       - Dash cam
       - Reverse cam
       - Cabin cam
       - Front proximity sensors
       - Rear proximity sensors
+
 - Supported interfaces
+
   - ``16x2`` LCD with controls for viewing data at a glance
   - ``UART`` API
   - Nanomsg API
+
     - Uses wifi module that dynamically connects to pre-configured wireless
       networks
+
   - Bluetooth API
+
 - Miscellaneous features
+
   - Arbitrary CAN bus message TX/RX over all APIs
 
 
 Requirements
 ------------
 
-* ``avrdude``
-* ``avr-binutils``
-* ``avr-gcc``
-* ``avr-libc-atmel``
+- ``avrdude``
+- ``avr-binutils``
+- ``avr-gcc``
+- ``avr-libc-atmel``
 
 
 Building/Using
