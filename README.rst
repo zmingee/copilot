@@ -58,24 +58,24 @@ Goals
 
 The goals of this project are as follows:
 
-    .. note:: *Bold* means currently implemented
+    .. note:: **Bold** means currently implemented
 
 - Diagnostics/Monitoring Subsystems
 
   - Engine ECU
 
-    - Vehicle speed
-    - Engine RPM
-    - Engine Status (running/off)
-    - Coolant & external temperatures
-    - Odometer
+    - **Vehicle speed**
+    - **Engine RPM**
+    - **Engine Status (running/off)**
+    - **Coolant & external temperatures**
+    - **Odometer**
     - Handbrake engaged/disengaged
     - Current transmission gear
     - Clutch engaged/disengaged
-    - Ignition position
-    - Air-fuel ratio
-    - O2 sensors
-    - Fuel level
+    - **Ignition position**
+    - **Air-fuel ratio**
+    - **O2 sensors**
+    - **Fuel level**
 
   - Body Control Module subsystem
 
